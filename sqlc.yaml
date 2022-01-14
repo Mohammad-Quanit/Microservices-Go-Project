@@ -1,0 +1,11 @@
+version: '1'
+packages:
+  - name: 'db'
+    path: './db/sqlc'
+    queries: './db/query/'
+    schema: './db/migration/'
+    engine: 'postgresql'
+    emit_json_tags: true              # add JSON tags to the generated structs
+    emit_prepared_queries: false      # generate codes that work with prepared statement (optimization)
+    emit_interface: false             # generate Querier interface for the generated package (useful for mock the db for testing higher-level functions)
+    emit_exact_table_names: false     # singularize the table name to use as the model struct name (accounts table will become Account struct)

@@ -1,3 +1,3 @@
-module github.com/mohammad-quanit/simple-go-service
+module github.com/mohammad-quanit/Go-Microservices-App
 
-go 1.16
+go 1.17

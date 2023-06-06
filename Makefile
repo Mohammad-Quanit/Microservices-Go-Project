@@ -1,3 +1,6 @@
+run:
+	nodemon --exec go run main.go --signal SIGTERM
+
 postgres:
 	docker run --name pg14 -p 5432:5432 -e POSTGRES_USER=quanit -e POSTGRES_PASSWORD=secret -d postgres:14-alpine
 

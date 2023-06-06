@@ -1,60 +1,55 @@
 package main
 
 import (
+	"context"
 	"log"
 	"net/http"
 	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"github.com/mohammad-quanit/Go-Microservices-App/handlers"
 )
 
-// "context"
-// "log"
-// "net/http"
-// "os"
-// "os/signal"
-// "time"
 func main() {
-
-	// // http.DefaultServeMux.HandleFunc("/", hh.ServeHttp)
-	// // http.HandleFunc("/", hh.ServeHttp)
-	// // http.ListenAndServe(":9001", sm)
-
-	// s := &http.Server{
-	// 	Addr:         ":9001",
-	// 	Handler:      sm,
-	// 	IdleTimeout:  120 * time.Second,
-	// 	ReadTimeout:  1 * time.Second,
-	// 	WriteTimeout: 1 * time.Second,
-	// }
-
-	// go func() {
-	// 	err := s.ListenAndServe()
-	// 	if err != nil {
-	// 		l.Fatal(err)
-	// 	}
-	// }()
-
-	// sigChan := make(chan os.Signal)
-	// signal.Notify(sigChan, os.Interrupt)
-	// signal.Notify(sigChan, os.Kill)
-
-	// sig := <-sigChan
-	// l.Println("Recieved terminate, graceful shutdown", sig)
-
-	// ctx, _ := context.WithTimeout(context.Background(), 30*time.Second)
-	// s.Shutdown(ctx)
-
-	l := log.New(os.Stdout, "Microservices-Go-Project", log.LstdFlags)
+	l := log.New(os.Stdout, "microservice-project", log.LstdFlags)
 	hh := handlers.NewHello(l)
+	gh := handlers.NewGoodBye(l)
 
 	sm := http.NewServeMux()
 	sm.HandleFunc("/", hh.ServeHttp)
+	sm.HandleFunc("/goodbye", gh.ServeHTTP)
 
-	// Listen for connections on all ip addresses (0.0.0.0) & port 9090
-	log.Println("Server Starting...")
-	if err := http.ListenAndServe(":9090", sm); err != nil {
-		log.Fatal(err)
+	s := http.Server{
+		Addr:         ":9090",           // configure the bind address
+		Handler:      sm,                // set the default handler
+		IdleTimeout:  120 * time.Second, // max time for connections using TCP Keep-Alive
+		ReadTimeout:  1 * time.Second,   // max time to read request from the client
+		WriteTimeout: 10 * time.Second,  // max time to write response to the client
+		ErrorLog:     l,                 // set the logger for the server
 	}
+
+	go func() {
+		// Listen for connections on all ip addresses (0.0.0.0) & port 9090
+		l.Println("Server Starting...")
+		if err := s.ListenAndServe(); err != nil {
+			l.Fatal(err)
+			os.Exit(1)
+		}
+	}()
+
+	// trap sigterm or interupt and gracefully shutdown the server
+	sigChan := make(chan os.Signal, 1)
+	signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
+	// signal.Notify(sigChan, syscall.SIGTERM)
+
+	sig := <-sigChan
+	l.Println("Recieved terminate, graceful shutdown", sig)
+
+	// gracefully shutdown the server, waiting max 30 seconds for current operations to complete
+	tCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel() // Ensure cancel function is called to avoid context leak
+	s.Shutdown(tCtx)
 
 }

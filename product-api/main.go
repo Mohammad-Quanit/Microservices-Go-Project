@@ -14,13 +14,11 @@ import (
 
 func main() {
 	l := log.New(os.Stdout, "microservice-project", log.LstdFlags)
-	hh := handlers.NewHello(l)
-	gh := handlers.NewGoodBye(l)
 	productHandler := handlers.NewProducts(l)
 
 	sm := http.NewServeMux()
-	sm.Handle("/", hh)
-	sm.Handle("/goodbye", gh)
+	sm.Handle("/", handlers.NewHello(l))
+	sm.Handle("/goodbye", handlers.NewGoodBye(l))
 	sm.Handle("/products", productHandler)
 
 	s := http.Server{

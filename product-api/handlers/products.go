@@ -25,12 +25,18 @@ func (p *Products) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	if r.Method == http.MethodPost {
+		p.addProduct(w, r)
+		return
+	}
+
 	//catch all
 	// if no method is satisfied return an error
 	w.WriteHeader(http.StatusMethodNotAllowed)
 }
 
 func (p *Products) getProducts(w http.ResponseWriter, r *http.Request) {
+	p.l.Println("Handle GET requests")
 
 	// fetch the products from the datastore
 	lp := data.GetProducts()
@@ -43,4 +49,18 @@ func (p *Products) getProducts(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	// w.Write(b)
+}
+
+func (p *Products) addProduct(w http.ResponseWriter, r *http.Request) {
+	p.l.Println("Handle POST requests")
+
+	product := &data.Product{}
+
+	err := product.FromJSON(r.Body)
+	if err != nil {
+		http.Error(w, "Unable to unmarshall JSON", http.StatusBadRequest)
+		return
+	}
+
+	p.l.Printf("Prod %#v", product)
 }

@@ -17,9 +17,9 @@ func main() {
 	productHandler := handlers.NewProducts(l)
 
 	sm := http.NewServeMux()
-	sm.Handle("/", handlers.NewHello(l))
-	sm.Handle("/goodbye", handlers.NewGoodBye(l))
-	sm.Handle("/products", productHandler)
+	// sm.Handle("/", handlers.NewHello(l))
+	// sm.Handle("/goodbye", handlers.NewGoodBye(l))
+	sm.Handle("/", productHandler)
 
 	s := http.Server{
 		Addr:         ":9090",           // configure the bind address

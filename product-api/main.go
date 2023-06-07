@@ -16,10 +16,12 @@ func main() {
 	l := log.New(os.Stdout, "microservice-project", log.LstdFlags)
 	hh := handlers.NewHello(l)
 	gh := handlers.NewGoodBye(l)
+	productHandler := handlers.NewProducts(l)
 
 	sm := http.NewServeMux()
-	sm.HandleFunc("/", hh.ServeHttp)
-	sm.HandleFunc("/goodbye", gh.ServeHTTP)
+	sm.Handle("/", hh)
+	sm.Handle("/goodbye", gh)
+	sm.Handle("/products", productHandler)
 
 	s := http.Server{
 		Addr:         ":9090",           // configure the bind address

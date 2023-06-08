@@ -19,6 +19,8 @@ func main() {
 	sm := http.NewServeMux()
 	// sm.Handle("/", handlers.NewHello(l))
 	// sm.Handle("/goodbye", handlers.NewGoodBye(l))
+
+	// r := mux.NewRouter()
 	sm.Handle("/", productHandler)
 
 	s := http.Server{

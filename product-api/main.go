@@ -9,6 +9,7 @@ import (
 	"syscall"
 	"time"
 
+	"github.com/gorilla/mux"
 	"github.com/mohammad-quanit/Go-Microservices-App/handlers"
 )
 
@@ -16,16 +17,23 @@ func main() {
 	l := log.New(os.Stdout, "microservice-project", log.LstdFlags)
 	productHandler := handlers.NewProducts(l)
 
-	sm := http.NewServeMux()
-	// sm.Handle("/", handlers.NewHello(l))
-	// sm.Handle("/goodbye", handlers.NewGoodBye(l))
+	// Create goilla mux router instance
+	r := mux.NewRouter()
 
-	// r := mux.NewRouter()
-	sm.Handle("/", productHandler)
+	getRouter := r.Methods(http.MethodGet).Subrouter()
+	getRouter.HandleFunc("/", productHandler.GetProducts)
+
+	postRouter := r.Methods(http.MethodPost).Subrouter()
+	postRouter.HandleFunc("/", productHandler.AddProduct)
+	postRouter.Use(productHandler.ProductValidationMiddleware)
+
+	putRouter := r.Methods(http.MethodPut).Subrouter()
+	putRouter.HandleFunc("/{id:[0-9]+}", productHandler.UpdateProduct)
+	putRouter.Use(productHandler.ProductValidationMiddleware)
 
 	s := http.Server{
 		Addr:         ":9090",           // configure the bind address
-		Handler:      sm,                // set the default handler
+		Handler:      r,                 // set the default handler
 		IdleTimeout:  120 * time.Second, // max time for connections using TCP Keep-Alive
 		ReadTimeout:  1 * time.Second,   // max time to read request from the client
 		WriteTimeout: 10 * time.Second,  // max time to write response to the client

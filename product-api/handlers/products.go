@@ -36,14 +36,6 @@ func (p *Products) GetProducts(w http.ResponseWriter, r *http.Request) {
 func (p *Products) AddProduct(w http.ResponseWriter, r *http.Request) {
 	p.l.Println("Handle POST requests")
 
-	// product := &data.Product{}
-
-	// err := product.FromJSON(r.Body)
-	// if err != nil {
-	// 	http.Error(w, "Unable to unmarshall JSON", http.StatusBadRequest)
-	// 	return
-	// }
-
 	product := r.Context().Value(KeyProduct{}).(*data.Product)
 
 	p.l.Printf("Prod %#v", product)
@@ -60,14 +52,6 @@ func (p *Products) UpdateProduct(w http.ResponseWriter, r *http.Request) {
 	}
 
 	p.l.Println("Handle PUT requests", id)
-
-	// product := &data.Product{}
-
-	// err = product.FromJSON(r.Body)
-	// if err != nil {
-	// 	http.Error(w, "Unable to unmarshall JSON", http.StatusBadRequest)
-	// 	return
-	// }
 
 	product := r.Context().Value(KeyProduct{}).(*data.Product)
 

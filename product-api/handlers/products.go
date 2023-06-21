@@ -1,3 +1,18 @@
+// Package classification of Product API
+//
+// # Documentation for Product API
+//
+// Schemes: http
+// BasePath: /
+// Version: 1.0.0
+//
+// Consumes:
+// - application/json
+//
+// Produces:
+// - application/json
+//
+// swagger:meta
 package handlers
 
 import (
@@ -23,7 +38,7 @@ func NewProducts(l *log.Logger) *Products {
 func (p *Products) GetProducts(w http.ResponseWriter, r *http.Request) {
 	p.l.Println("Handle GET requests")
 
-	// fetch the products from the datastore
+	// fetch the products from the dummy datastore
 	lp := data.GetProducts()
 
 	// serialize the list to JSON

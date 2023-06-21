@@ -61,5 +61,4 @@ func main() {
 	tCtx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel() // Ensure cancel function is called to avoid context leak
 	s.Shutdown(tCtx)
-
 }

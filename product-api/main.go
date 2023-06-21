@@ -14,7 +14,7 @@ import (
 )
 
 func main() {
-	l := log.New(os.Stdout, "microservice-project", log.LstdFlags)
+	l := log.New(os.Stdout, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
 	productHandler := handlers.NewProducts(l)
 
 	// Create goilla mux router instance

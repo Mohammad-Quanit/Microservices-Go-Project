@@ -24,11 +24,11 @@ func main() {
 	getRouter.HandleFunc("/products", productHandler.GetAll)
 
 	postRouter := r.Methods(http.MethodPost).Subrouter()
-	postRouter.HandleFunc("/products", productHandler.Create)
+	postRouter.HandleFunc("/product", productHandler.Create)
 	postRouter.Use(productHandler.ValidationMiddleware)
 
 	putRouter := r.Methods(http.MethodPut).Subrouter()
-	putRouter.HandleFunc("/products/{id:[0-9]+}", productHandler.Update)
+	putRouter.HandleFunc("/product/{id:[0-9]+}", productHandler.Update)
 	putRouter.Use(productHandler.ValidationMiddleware)
 
 	s := http.Server{

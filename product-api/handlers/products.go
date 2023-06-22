@@ -23,10 +23,10 @@ import (
 
 // A list of products return in the response
 // swagger:response productsResponse
-type productsResponse struct {
+type ProductsResponseWrapper struct {
 	// All products in the system
 	// in: body
-	Body []data.Products
+	Body []data.Product
 }
 
 // KeyProduct is a key used for the Product object in the context

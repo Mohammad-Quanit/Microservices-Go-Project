@@ -21,15 +21,15 @@ func main() {
 	r := mux.NewRouter()
 
 	getRouter := r.Methods(http.MethodGet).Subrouter()
-	getRouter.HandleFunc("/", productHandler.GetProducts)
+	getRouter.HandleFunc("/products", productHandler.GetAll)
 
 	postRouter := r.Methods(http.MethodPost).Subrouter()
-	postRouter.HandleFunc("/", productHandler.AddProduct)
-	postRouter.Use(productHandler.ProductValidationMiddleware)
+	postRouter.HandleFunc("/products", productHandler.Create)
+	postRouter.Use(productHandler.ValidationMiddleware)
 
 	putRouter := r.Methods(http.MethodPut).Subrouter()
-	putRouter.HandleFunc("/{id:[0-9]+}", productHandler.UpdateProduct)
-	putRouter.Use(productHandler.ProductValidationMiddleware)
+	putRouter.HandleFunc("/products/{id:[0-9]+}", productHandler.Update)
+	putRouter.Use(productHandler.ValidationMiddleware)
 
 	s := http.Server{
 		Addr:         ":9090",           // configure the bind address

@@ -1,6 +1,9 @@
 basePath: /
 consumes:
     - application/json
+definitions:
+    Product:
+        x-go-package: github.com/mohammad-quanit/Go-Microservices-App/data
 info:
     description: '# Documentation for Product API'
     title: of Product API
@@ -19,7 +22,7 @@ produces:
     - application/json
 responses:
     productsResponse:
-        description: A list of products return in the response
+        description: ProductsResponseWrapper represents the response wrapper for products.
         schema:
             items: {}
             type: array

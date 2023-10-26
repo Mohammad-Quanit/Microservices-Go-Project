@@ -10,7 +10,7 @@ import (
 // Return a list of products from the database
 // responses:
 //
-//	200: productsResponse
+// 200: productsResponse
 //
 // GetAll handles GET requests and returns all current products
 func (p *Products) GetAll(w http.ResponseWriter, r *http.Request) {

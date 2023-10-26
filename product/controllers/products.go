@@ -21,12 +21,12 @@ import (
 	"github.com/mohammad-quanit/Go-Microservices-App/data"
 )
 
-// A list of products return in the response
+// ProductsResponseWrapper represents the response wrapper for products.
 // swagger:response productsResponse
 type ProductsResponseWrapper struct {
 	// All products in the system
 	// in: body
-	Body []data.Product
+	Body []data.Products `json:"body"`
 }
 
 // KeyProduct is a key used for the Product object in the context

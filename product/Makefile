@@ -7,20 +7,20 @@ check_install_swagger:
 swagger: check_install_swagger
 	GO111MODULE=off && swagger generate spec -o ./swagger.yaml --scan-models
 
-postgres-mquanit:
-	docker run --name pg14 -p 5432:5432 -e POSTGRES_USER=quanit -e POSTGRES_PASSWORD=secret -d postgres:14-alpine
+postgres:
+	docker run --name pg -p 5432:5432 -e POSTGRES_USER=postgres -e POSTGRES_PASSWORD=postgres -d postgres:latest
 
 createdb:
-	docker exec -it pg14 createdb --username=quanit --owner=quanit simplebank
+	docker exec -it pg createdb --username=postgres --owner=postgres products
 
 dropdb:
-	docker exec -it pg14 dropdb simplebank
+	docker exec -it pg dropdb --username=postgres --owner=postgres products
 
 migrateup:
-	migrate -path db/migration -database "postgresql://postgres@localhost:5432/simplebank?sslmode=disable" -verbose up
+	migrate -path db/migration -database "postgresql://postgres:postgres@localhost:5432/products?sslmode=disable" -verbose up
 
 migratedown:
-	migrate -path db/migration -database "postgresql://quanit:secret@localhost:5432/simplebank?sslmode=disable" -verbose down
+	migrate -path db/migration -database "postgresql://postgres:postgres@localhost:5432/products?sslmode=disable" -verbose down
 
 sqlc:
 	sqlc generate

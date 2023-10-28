@@ -2,7 +2,7 @@ package middlewares
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/mohammad-quanit/auth/utils"
+	"github.com/mohammad-quanit/Go-Microservices-App/auth/utils"
 )
 
 // The function IsAuthorized returns a Gin handler function,

@@ -11,6 +11,7 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
+	"github.com/mohammad-quanit/Go-Microservices-App/product/models"
 )
 
 func v1EndpointHandler(c *gin.Context) {
@@ -21,6 +22,9 @@ func v2EndpointHandler(c *gin.Context) {
 }
 
 func main() {
+	// gin.SetMode(gin.ReleaseMode) //optional to not get warning
+	// route.SetTrustedProxies([]string{"192.168.1.2"}) //to trust only a specific value
+
 	// Create a new gin instance
 	r := gin.Default()
 	r.Use(gin.Logger())
@@ -28,13 +32,26 @@ func main() {
 	// v1 := r.Group("/v1")
 	l := log.New(os.Stdout, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
 
-	// Load .env file and Create a new connection to the database
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")
 	}
 
 	serverAddr := os.Getenv("PRODUCT_API_PORT")
+	config := models.Config{
+		Host:     os.Getenv("DB_HOST"),
+		Port:     os.Getenv("DB_PORT"),
+		User:     os.Getenv("DB_USER"),
+		Password: os.Getenv("DB_PASSWORD"),
+		DBName:   os.Getenv("DB_NAME"),
+		SSLMode:  os.Getenv("DB_SSLMODE"),
+	}
+
+	// initialize DB
+	models.InitDB(config)
+
+	// Load the routes
+	// routes.AuthRoutes(r)
 
 	// Create an HTTP server instance
 	srv := &http.Server{

@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/mohammad-quanit/auth/models"
+	"github.com/mohammad-quanit/Go-Microservices-App/auth/models"
 )
 
 // takes a JWT token as input and returns the claims contained in it. Claims are a set of key-value pairs that

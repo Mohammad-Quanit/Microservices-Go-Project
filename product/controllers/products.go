@@ -13,12 +13,12 @@
 // - application/json
 //
 // swagger:meta
-package handlers
+package controllers
 
 import (
 	"log"
 
-	"github.com/mohammad-quanit/Go-Microservices-App/data"
+	"github.com/mohammad-quanit/Go-Microservices-App/product/data"
 )
 
 // ProductsResponseWrapper represents the response wrapper for products.

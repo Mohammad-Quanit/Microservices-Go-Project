@@ -5,8 +5,8 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"github.com/mohammad-quanit/auth/models"
-	"github.com/mohammad-quanit/auth/utils"
+	"github.com/mohammad-quanit/Go-Microservices-App/auth/models"
+	"github.com/mohammad-quanit/Go-Microservices-App/auth/utils"
 )
 
 func Login(c *gin.Context) {

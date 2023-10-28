@@ -1,9 +1,9 @@
-package handlers
+package controllers
 
 import (
 	"net/http"
 
-	"github.com/mohammad-quanit/Go-Microservices-App/data"
+	"github.com/mohammad-quanit/Go-Microservices-App/product/data"
 )
 
 // Create handles POST requests to add new products

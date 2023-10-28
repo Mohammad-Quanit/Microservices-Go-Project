@@ -6,8 +6,8 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
-	"github.com/mohammad-quanit/auth/models"
-	"github.com/mohammad-quanit/auth/routes"
+	"github.com/mohammad-quanit/Go-Microservices-App/auth/models"
+	"github.com/mohammad-quanit/Go-Microservices-App/auth/routes"
 )
 
 func main() {

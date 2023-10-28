@@ -1,11 +1,11 @@
-package handlers
+package controllers
 
 import (
 	"context"
 	"fmt"
 	"net/http"
 
-	"github.com/mohammad-quanit/Go-Microservices-App/data"
+	"github.com/mohammad-quanit/Go-Microservices-App/product/data"
 )
 
 func (p *Products) ValidationMiddleware(next http.Handler) http.Handler {

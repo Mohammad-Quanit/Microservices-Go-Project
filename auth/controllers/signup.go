@@ -2,8 +2,8 @@ package controllers
 
 import (
 	"github.com/gin-gonic/gin"
-	"github.com/mohammad-quanit/auth/models"
-	"github.com/mohammad-quanit/auth/utils"
+	"github.com/mohammad-quanit/Go-Microservices-App/auth/models"
+	"github.com/mohammad-quanit/Go-Microservices-App/auth/utils"
 )
 
 func Signup(c *gin.Context) {

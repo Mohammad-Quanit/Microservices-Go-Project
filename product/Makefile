@@ -14,7 +14,7 @@ createdb:
 	docker exec -it pg createdb --username=postgres --owner=postgres products
 
 dropdb:
-	docker exec -it pg dropdb --username=postgres --owner=postgres products
+	docker exec -it pg dropdb --username=postgres products
 
 migrateup:
 	migrate -path db/migration -database "postgresql://postgres:postgres@localhost:5432/products?sslmode=disable" -verbose up

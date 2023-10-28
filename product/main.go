@@ -12,6 +12,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/joho/godotenv"
 	"github.com/mohammad-quanit/Go-Microservices-App/product/models"
+	"github.com/mohammad-quanit/Go-Microservices-App/product/routes"
 )
 
 func v1EndpointHandler(c *gin.Context) {
@@ -47,12 +48,6 @@ func main() {
 		SSLMode:  os.Getenv("DB_SSLMODE"),
 	}
 
-	// initialize DB
-	models.InitDB(config)
-
-	// Load the routes
-	// routes.AuthRoutes(r)
-
 	// Create an HTTP server instance
 	srv := &http.Server{
 		Addr:         serverAddr,
@@ -63,20 +58,24 @@ func main() {
 		ErrorLog:     l,                 // set the logger for the server
 	}
 
+	// initialize DB
+	models.InitDB(config)
+
+	// Load the routes
+	routes.ProductRoutes(r)
+
 	go func() {
-		l.Println("Server Started")
+		l.Println("Listening and serving on", serverAddr)
 
 		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
 			log.Fatalf("listen: %s\n", err)
 			os.Exit(1)
 		}
-
 	}()
 
 	// trap sigterm or interupt and gracefully shutdown the server
 	sigChan := make(chan os.Signal, 1)
 	signal.Notify(sigChan, os.Interrupt, syscall.SIGTERM)
-	// signal.Notify(sigChan, syscall.SIGTERM)
 
 	sig := <-sigChan
 	l.Println("Recieved terminate, graceful shutdown", sig)

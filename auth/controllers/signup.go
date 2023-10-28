@@ -1,6 +1,8 @@
 package controllers
 
 import (
+	"net/http"
+
 	"github.com/gin-gonic/gin"
 	"github.com/mohammad-quanit/Go-Microservices-App/auth/models"
 	"github.com/mohammad-quanit/Go-Microservices-App/auth/utils"
@@ -12,7 +14,7 @@ func Signup(c *gin.Context) {
 	var user models.User
 
 	if err := c.ShouldBindJSON(&user); err != err {
-		c.JSON(400, gin.H{"error": err.Error()})
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 
@@ -30,10 +32,10 @@ func Signup(c *gin.Context) {
 	user.Password, errHash = utils.GenerateHashPassword(user.Password)
 
 	if errHash != nil {
-		c.JSON(500, gin.H{"error": "could not generate password hash"})
+		c.JSON(http.StatusInternalServerError, gin.H{"error": "could not generate password hash"})
 		return
 	}
 
 	models.DB.Create(&user)
-	c.JSON(200, gin.H{"success": "user created"})
+	c.JSON(http.StatusOK, gin.H{"success": "user created"})
 }

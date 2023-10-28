@@ -8,7 +8,7 @@ import (
 func ProductRoutes(r *gin.Engine) {
 	r.GET("/ping", controllers.Ping)
 	r.GET("/products", controllers.GetProducts)
-	r.POST("/product", controllers.AddProduct)
-	// r.GET("/products", controllers.GetProduct)
-	r.DELETE("/products", controllers.RemoveProduct)
+	r.POST("/products", controllers.AddProduct)
+	r.GET("/products/:id", controllers.GetProduct)
+	r.DELETE("/products/:id", controllers.RemoveProduct)
 }

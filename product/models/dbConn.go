@@ -2,7 +2,6 @@ package models
 
 import (
 	"fmt"
-	"log"
 
 	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
@@ -31,7 +30,7 @@ func InitDB(cfg Config) {
 		panic(err)
 	}
 
-	log.Println("Connected to Database.")
+	// log.Println("Connected to Database.")
 
 	// Migrates the User model by calling AutoMigrate.
 	// This creates the necessary table in the database if it doesn't exist.
@@ -39,7 +38,7 @@ func InitDB(cfg Config) {
 		panic(err)
 	}
 
-	fmt.Println("Migrated database")
+	// fmt.Println("Migrated database")
 
 	DB = db
 }

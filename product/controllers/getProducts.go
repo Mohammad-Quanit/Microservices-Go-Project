@@ -7,6 +7,8 @@ import (
 
 func GetProducts(c *gin.Context) {
 	var products models.Products
+
 	models.DB.Find(&products)
+
 	c.JSON(200, gin.H{"data": products})
 }

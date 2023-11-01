@@ -21,6 +21,8 @@ func main() {
 	router.Use(middlewares.IOLogger())
 	router.Use(gin.Recovery())
 
+	v1 := router.Group("/v1")
+
 	// Initialize a standard logger
 	logger := log.New(os.Stdout, "INFO: ", log.Ldate|log.Ltime|log.Lshortfile)
 
@@ -55,14 +57,18 @@ func main() {
 	models.InitDB(dbConfig)
 
 	// Load the routes
-	routes.ProductRoutes(router)
+	routes.ProductRoutes(v1)
 
 	// Start the server in a goroutine
 	go func() {
-		if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
-			logger.Fatalf("Server startup failed: %s", err)
+		if err := router.Run(); err != nil && err != http.ErrServerClosed {
+			log.Fatal("Server failed to start: ", err)
 			os.Exit(1)
 		}
+		// if err := srv.ListenAndServe(); err != nil && err != http.ErrServerClosed {
+		// 	logger.Fatalf("Server startup failed: %s", err)
+		// 	os.Exit(1)
+		// }
 	}()
 
 	// Graceful shutdown of the server

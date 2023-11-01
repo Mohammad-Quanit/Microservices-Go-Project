@@ -5,10 +5,11 @@ import (
 	"github.com/mohammad-quanit/Go-Microservices-App/product/controllers"
 )
 
-func ProductRoutes(r *gin.Engine) {
-	r.GET("/ping", controllers.Ping)
-	r.GET("/products", controllers.GetProducts)
-	r.POST("/products", controllers.AddProduct)
-	r.GET("/products/:id", controllers.GetProduct)
-	r.DELETE("/products/:id", controllers.RemoveProduct)
+func ProductRoutes(v *gin.RouterGroup) {
+	v.GET("/")
+	v.GET("/ping", controllers.Ping)
+	v.GET("/products", controllers.GetProducts)
+	v.POST("/products", controllers.AddProduct)
+	v.GET("/products/:id", controllers.GetProduct)
+	v.DELETE("/products/:id", controllers.RemoveProduct)
 }
